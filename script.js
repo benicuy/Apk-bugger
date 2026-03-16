@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const API_BASE = 'https://w.mbbstore.my.id:2139';  // PORT 2139 lu bro
+  const API_BASE = 'https://w.mbbstore.my.id:2139/status';  // PORT 2139 lu bro
 
   const phoneInput = document.getElementById('phoneNumberInput');
   const generateBtn = document.getElementById('generatePairingBtn');
