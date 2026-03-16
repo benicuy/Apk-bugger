@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Cek status connected dari backend setiap 5 detik
   async function checkConnection() {
     try {
-      const res = await fetch('https://w.mbbstore.my.id/server/');
+      const res = await fetch('http://localhost:3000');
       const data = await res.json();
       if (data.connected && !isConnected) {
         isConnected = true;
