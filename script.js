@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const API_BASE = 'https://apk-bugger.railway.app';  // BACKEND RAILWAY LU BRO 🔥
+  const API_BASE = 'https://beckend-server.railway.app/';  // BACKEND RAILWAY LU BRO 🔥
 
   const phoneInput = document.getElementById('phoneNumberInput');
   const generateBtn = document.getElementById('generatePairingBtn');
