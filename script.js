@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const API_BASE = 'https://apk-bugger.railway.app/';  // PORT 2139 lu bro
+  const API_BASE = 'https://apk-bugger.railway.app';  // BACKEND RAILWAY LU BRO 🔥
 
   const phoneInput = document.getElementById('phoneNumberInput');
   const generateBtn = document.getElementById('generatePairingBtn');
@@ -16,21 +16,19 @@ document.addEventListener('DOMContentLoaded', () => {
   let isConnected = false;
   let currentCode = '';
 
-  // Loading state
-  function showLoading(btn) {
+  function showLoading(btn, text = 'Loading... 🔥') {
     btn.disabled = true;
-    btn.innerHTML = 'Loading... 🔥';
+    btn.innerHTML = text;
   }
 
-  function hideLoading(btn, text) {
+  function hideLoading(btn, originalText) {
     btn.disabled = false;
-    btn.innerHTML = text;
+    btn.innerHTML = originalText;
   }
 
   async function checkConnection() {
     try {
-      const res = await fetch(`${API_BASE}/status`, { mode: 'cors' });
-      if (!res.ok) throw new Error('Status not OK');
+      const res = await fetch(`${API_BASE}/status`);
       const data = await res.json();
       if (data.connected && !isConnected) {
         isConnected = true;
@@ -41,26 +39,28 @@ document.addEventListener('DOMContentLoaded', () => {
         checkSendButton();
       }
     } catch (err) {
-      console.error('Connection check failed:', err);
+      console.error('Status check error:', err);
     }
   }
-  setInterval(checkConnection, 6000); // 6 detik biar ga terlalu spam
+
+  setInterval(checkConnection, 5000);
   checkConnection();
 
   generateBtn.addEventListener('click', async () => {
     const phone = phoneInput.value.trim().replace('+', '');
-    if (!phone || !/^\d{10,15}$/.test(phone)) {
-      alert('Nomor harus 628xxxxxxxxxx bro 🔥');
+    if (!phone || phone.length < 10) {
+      alert('Masukin nomor valid bro (628xxxxxxxxxx) 🔥');
       return;
     }
 
+    const originalText = generateBtn.innerHTML;
     showLoading(generateBtn);
+
     try {
       const res = await fetch(`${API_BASE}/generate-pairing`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ phoneNumber: phone }),
-        mode: 'cors'
+        body: JSON.stringify({ phoneNumber: phone })
       });
       const data = await res.json();
 
@@ -68,28 +68,26 @@ document.addEventListener('DOMContentLoaded', () => {
         currentCode = data.pairingCode;
         codeDisplay.textContent = data.pairingCode;
         pairingBox.style.display = 'block';
-        alert(`Kode pairing: ${data.pairingCode}\nMasukin di WA sekarang! (8 digit)`);
+        alert(`Kode pairing: ${data.pairingCode}\nMasukin di WA sekarang bro! (8 digit)`);
       } else {
-        alert(data.message || 'Gagal generate code bro π');
+        alert(data.message || 'Gagal generate code π');
       }
     } catch (err) {
-      console.error('Generate failed:', err);
-      alert('Gagal konek ke backend. Cek: backend nyala? Port 2139 open? Console browser ada error apa?');
+      console.error('Generate error:', err);
+      alert('Gagal konek ke backend Railway. Cek console browser atau dashboard Railway lu.');
     } finally {
-      hideLoading(generateBtn, 'GENERATE PAIRING CODE 🔥');
+      hideLoading(generateBtn, originalText);
     }
   });
 
   copyBtn.addEventListener('click', () => {
     navigator.clipboard.writeText(currentCode).then(() => {
-      alert('Kode dicopy! Paste ke WA lu bro 🔥');
-    }).catch(() => {
-      alert('Gagal copy, salin manual aja');
+      alert('Kode dicopy! Paste ke WA lu 🔥');
     });
   });
 
   disconnectBtn.addEventListener('click', () => {
-    alert('Disconnect permanen: hapus folder auth_info di panel Pterodactyl lalu restart server');
+    alert('Disconnect: hapus folder auth_info di Railway kalau mau reset pairing');
     isConnected = false;
     botStatusText.textContent = 'Status: Disconnected';
     botStatusDot.classList.remove('connected');
@@ -114,21 +112,22 @@ document.addEventListener('DOMContentLoaded', () => {
       .filter(cb => cb.checked)
       .map(cb => cb.value);
 
+    const originalText = sendBtn.innerHTML;
     showLoading(sendBtn);
+
     try {
       const res = await fetch(`${API_BASE}/send-bug`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ target, bugs }),
-        mode: 'cors'
+        body: JSON.stringify({ target, bugs })
       });
       const data = await res.json();
       alert(data.message || (data.success ? 'Bug terkirim Ω 🔥' : 'Gagal kirim'));
     } catch (err) {
-      console.error('Send bug failed:', err);
-      alert('Gagal kirim ke backend bro');
+      console.error('Send error:', err);
+      alert('Gagal kirim ke backend');
     } finally {
-      hideLoading(sendBtn, 'KIRIM BUG Ω 🔥');
+      hideLoading(sendBtn, originalText);
     }
   });
 });
