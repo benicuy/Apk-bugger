@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const API_BASE = 'https://w.mbbstore.my.id/server/61e19f8b';  // <-- ini link lu, ganti kalau port beda (misal :2139)
+  const API_BASE = 'https://w.mbbstore.my.id:2139';  // PORT 2139 lu bro
 
   const phoneInput = document.getElementById('phoneNumberInput');
   const generateBtn = document.getElementById('generatePairingBtn');
@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
         alert(data.message || 'Gagal generate code π');
       }
     } catch (err) {
-      alert('Gagal konek ke server lu bro. Cek backend nyala ga?');
+      alert('Gagal konek ke server. Cek console browser atau backend nyala ga?');
     }
   });
 
@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   disconnectBtn.addEventListener('click', () => {
-    alert('Disconnect permanen: hapus folder auth_info di panel Pterodactyl lalu restart server bro');
+    alert('Disconnect permanen: hapus folder auth_info di panel lalu restart server bro');
     isConnected = false;
     botStatusText.textContent = 'Status: Disconnected';
     botStatusDot.classList.remove('connected');
