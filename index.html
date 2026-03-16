@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DarkVerse • Bug WA Ω</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="container">
+
+    <div class="header">
+      <div class="menu-icon">☰</div>
+      <h1>Hai, Bajigur</h1>
+      <div class="icons">
+        <span>🎧</span>
+        <span>👤</span>
+      </div>
+    </div>
+
+    <!-- Bot Pairing Section -->
+    <div class="bot-section">
+      <h3>┏─⧼ SAMBUNGIN BOT VIA PAIRING CODE 🕊⧽</h3>
+      <div class="bot-status">
+        <span id="botStatusText">Status: Disconnected</span>
+        <span id="botStatusDot" class="status-dot disconnected"></span>
+      </div>
+
+      <input type="tel" id="phoneNumberInput" placeholder="628xxxxxxxxxx (tanpa +)" />
+      <button class="btn generate-btn" id="generatePairingBtn">GENERATE PAIRING CODE 🔥</button>
+
+      <div class="pairing-code-box" id="pairingCodeBox" style="display: none;">
+        <h4>PAIRING CODE</h4>
+        <div class="code-display" id="pairingCodeDisplay">--------</div>
+        <button class="btn copy-btn" id="copyCodeBtn">COPY KODE</button>
+        <p class="instruction">Buka WA → Pengaturan → Perangkat Tertaut → Tautkan dengan nomor telepon → Masukkan kode 8 digit ini</p>
+      </div>
+
+      <button class="btn disconnect-btn" id="disconnectBotBtn" disabled>PUTUSKAN BOT</button>
+      <p class="note">Pairing permanen, sekali connect ga perlu ulang Ω</p>
+    </div>
+
+    <!-- Profile -->
+    <div class="profile-card">
+      <div class="avatar">
+        <img src="https://i.ibb.co/0mZ0Z0Z/wolf-girl-pink-eyes.jpg" alt="Avatar">
+      </div>
+      <div class="info">
+        <h2>vinzNt</h2>
+        <p>Role: ADMIN • DarkVerse</p>
+        <p>Exp: 2053-06-27</p>
+      </div>
+    </div>
+
+    <!-- Bug Selection -->
+    <div class="features">
+      <h3>┏─⧼ PILIH BUG 🕊⧽</h3>
+      <div class="bug-list">
+        <label class="bug-item"><input type="checkbox" class="bug-checkbox" value="crash_android"> CRASH ANDROID v2.1</label>
+        <label class="bug-item"><input type="checkbox" class="bug-checkbox" value="invisible_delay"> INVISIBLE DELAY</label>
+        <label class="bug-item"><input type="checkbox" class="bug-checkbox" value="delay_permanen"> DELAY PERMANEN</label>
+        <label class="bug-item"><input type="checkbox" class="bug-checkbox" value="kill_ios"> KILL iOS / iPHONE</label>
+        <label class="bug-item"><input type="checkbox" class="bug-checkbox" value="force_close"> FORCE CLOSE HARD</label>
+        <label class="bug-item"><input type="checkbox" class="bug-checkbox" value="anti_kenon"> ANTI KENON</label>
+        <label class="bug-item"><input type="checkbox" class="bug-checkbox" value="broke_ios"> BROKE iOS</label>
+        <label class="bug-item"><input type="checkbox" class="bug-checkbox" value="broke_andro"> BROKE ANDRO</label>
+      </div>
+    </div>
+
+    <!-- Target & Send -->
+    <div class="target-section">
+      <h3>NOMOR TARGET / GROUP</h3>
+      <input type="tel" id="targetNumber" placeholder="+62xxxxxxxxxxx atau group@g.us" />
+      <button class="btn send-btn" id="sendBugBtn" disabled>KIRIM BUG Ω 🔥</button>
+    </div>
+
+  </div>
+
+  <div class="bottom-nav">
+    <span>🏠</span>
+    <span class="active">💬 WhatsApp</span>
+    <span>🔔</span>
+    <span>⚙</span>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
