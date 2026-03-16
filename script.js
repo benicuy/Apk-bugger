@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
+  const API_BASE = 'https://w.mbbstore.my.id/server/61e19f8b';  // <-- ini link lu, ganti kalau port beda (misal :2139)
+
   const phoneInput = document.getElementById('phoneNumberInput');
   const generateBtn = document.getElementById('generatePairingBtn');
   const pairingBox = document.getElementById('pairingCodeBox');
@@ -14,10 +16,9 @@ document.addEventListener('DOMContentLoaded', () => {
   let isConnected = false;
   let currentCode = '';
 
-  // Cek status connected dari backend setiap 5 detik
   async function checkConnection() {
     try {
-      const res = await fetch('http://localhost:3000');
+      const res = await fetch(`${API_BASE}/status`);
       const data = await res.json();
       if (data.connected && !isConnected) {
         isConnected = true;
@@ -28,21 +29,21 @@ document.addEventListener('DOMContentLoaded', () => {
         checkSendButton();
       }
     } catch (err) {
-      console.log('Backend ga nyambung / masih loading');
+      console.log('Gagal cek status:', err);
     }
   }
   setInterval(checkConnection, 5000);
-  checkConnection(); // cek pertama kali
+  checkConnection();
 
   generateBtn.addEventListener('click', async () => {
     const phone = phoneInput.value.trim().replace('+', '');
     if (!phone || !/^\d{10,15}$/.test(phone)) {
-      alert('Masukin nomor valid bro (contoh: 6281234567890) 🔥');
+      alert('Masukin nomor valid bro (628xxxxxxxxxx) 🔥');
       return;
     }
 
     try {
-      const res = await fetch('http://localhost:3000/generate-pairing', {
+      const res = await fetch(`${API_BASE}/generate-pairing`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ phoneNumber: phone })
@@ -53,26 +54,23 @@ document.addEventListener('DOMContentLoaded', () => {
         currentCode = data.pairingCode;
         codeDisplay.textContent = data.pairingCode;
         pairingBox.style.display = 'block';
-        alert(`Kode pairing: ${data.pairingCode}\nMasukin di WA sekarang bro! (8 digit)`);
+        alert(`Kode pairing: ${data.pairingCode}\nMasukin di WA sekarang bro!`);
       } else {
         alert(data.message || 'Gagal generate code π');
       }
     } catch (err) {
-      alert('Server error, pastiin backend nyala bro');
+      alert('Gagal konek ke server lu bro. Cek backend nyala ga?');
     }
   });
 
   copyBtn.addEventListener('click', () => {
     navigator.clipboard.writeText(currentCode).then(() => {
       alert('Kode dicopy! Paste ke WA lu 🔥');
-    }).catch(() => {
-      alert('Gagal copy, salin manual aja bro');
     });
   });
 
-  disconnectBtn.addEventListener('click', async () => {
-    // Simulasi disconnect (realnya hapus folder auth_info manual)
-    alert('Untuk disconnect permanen, hapus folder auth_info di backend lalu restart server bro π');
+  disconnectBtn.addEventListener('click', () => {
+    alert('Disconnect permanen: hapus folder auth_info di panel Pterodactyl lalu restart server bro');
     isConnected = false;
     botStatusText.textContent = 'Status: Disconnected';
     botStatusDot.classList.remove('connected');
@@ -98,19 +96,15 @@ document.addEventListener('DOMContentLoaded', () => {
       .map(cb => cb.value);
 
     try {
-      const res = await fetch('http://localhost:3000/send-bug', {
+      const res = await fetch(`${API_BASE}/send-bug`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ target, bugs })
       });
       const data = await res.json();
-      if (data.success) {
-        alert(`Sukses kirim bug ke ${target}!\nBug: ${bugs.join(', ')} 🕊 Ω 🔥`);
-      } else {
-        alert(data.message || 'Gagal kirim');
-      }
+      alert(data.message || (data.success ? 'Bug terkirim Ω 🔥' : 'Gagal kirim'));
     } catch (err) {
-      alert('Gagal konek ke backend bro');
+      alert('Gagal kirim ke server bro');
     }
   });
 });
